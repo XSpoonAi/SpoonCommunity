@@ -75,7 +75,7 @@ Our ecosystem is powered by visionary developers from 5 global regions:
 
 | Resource | Description | Link |
 | :--- | :--- | :--- |
-| 🧑‍💻 **Co-learning** | Join our community-led sessions to master AI Agent development step-by-step. | [Explore ↗️](https://xspoonai.github.io/spoon-colearning/) |
+| 🧑‍💻 **Co-learning** | Join our community-led sessions to master AI Agent development step-by-step. | [Explore↗️](https://xspoonai.github.io/spoon-colearning/) |
 | 🎬 **Workshop** | Watch our curated video tutorials and technical deep-dives on YouTube. | [Watch ↗️](https://www.youtube.com/playlist?list=PLyHm819ed_KA36Ae2Ug1iUeiA8_N0obcB) |
 | 📖 **Cookbook** | Explore a collection of practical recipes and code snippets for SpoonOS. | [Read ↗️](https://xspoonai.github.io/) |
 
