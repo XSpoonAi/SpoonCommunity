@@ -13,7 +13,7 @@ Our mission is to foster a global developer ecosystem, providing a centralized h
 
 ## 🌍 Global Impact
 Our ecosystem is powered by visionary developers from 5 global regions:
-`🇺🇸 USA` | `🇬🇧 UK` | `🇻🇳 Vietnam` | `🇷🇺 Russia` | `🇰🇷 South Korea`
+`🇺🇸 USA` | `🇬🇧 UK` | `🇻🇳 Vietnam` | `🇷🇺 Russia` | `🇰🇷 Korea`
 
 ---
 
