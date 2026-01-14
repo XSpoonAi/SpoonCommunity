@@ -1,16 +1,7 @@
-import pandas as pd
 import os
 
-def generate_table(csv_path):
-    if os.path.exists(csv_path):
-        df = pd.read_csv(csv_path)
-        # 确保链接列显示为 Markdown 链接
-        df['Link'] = df['Link'].apply(lambda x: f"[Repo]({x})" if str(x).startswith('http') else "-")
-        return df.to_markdown(index=False)
-    return "Coming soon..."
-
-# 定义赛区及其对应的 CSV 文件
-regions = {
+# 配置赛区和对应的文件
+REGIONS = {
     "🇺🇸 USA": "data/usa.csv",
     "🇬🇧 UK": "data/uk.csv",
     "🇻🇳 Vietnam": "data/vietnam.csv",
@@ -18,26 +9,30 @@ regions = {
     "🇰🇷 South Korea": "data/south_korea.csv"
 }
 
-# 组装 Showcase 部分
-showcase_content = ""
-for name, path in regions.items():
-    showcase_content += f"### {name}\n\n{generate_table(path)}\n\n"
+def load_csv_to_md(file_path):
+    if not os.path.exists(file_path):
+        return "| Project Name | Description | Key Tech | Link |\n| :--- | :--- | :--- | :--- |\n| - | Coming Soon | - | - |"
+    
+    lines = []
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.readlines()
+            if len(content) <= 1: # 只有表头或为空
+                return "No projects listed yet."
+            
+            # 生成 Markdown 表格头
+            lines.append("| Project Name | Description | Key Tech | Link |")
+            lines.append("| :--- | :--- | :--- | :--- |")
+            
+            # 跳过第一行表头，处理数据行
+            for line in content[1:]:
+                parts = line.strip().split(',')
+                if len(parts) >= 4:
+                    name, desc, tech, link = parts[0], parts[1], parts[2], parts[3]
+                    link_md = f"[Repo]({link})" if link.startswith('http') else "-"
+                    lines.append(f"| {name} | {desc} | {tech} | {link_md} |")
+        return "\n".join(lines)
+    except Exception as e:
+        return f"Error loading CSV: {e}"
 
-# 读取 README 模版并替换 (假设你在 README 中留下了 这样的占位符)
-# 或者直接在这里定义完整的 README 模版
-full_readme = f"""# 📝 SpoonCommunity: Global AI Agent Ecosystem
-
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![SpoonOS](https://img.shields.io/badge/Powered%20by-SpoonOS-orange)](https://github.com/XSpoonAi)
-
-... (此处省略之前的 README 固定部分) ...
-
-## 🤖 Global Hackathon Project Showcase
-
-{showcase_content}
-
-... (此处省略 Education 等固定部分) ...
-"""
-
-with open("README.md", "w", encoding="utf-8") as f:
-    f.write(full_readme)
+# 后面的 README 模版保持不变... (请接上文的模版代码)
