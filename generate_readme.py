@@ -1,5 +1,5 @@
-import pandas as pd
 import os
+import csv
 
 # 配置赛区和对应的文件
 REGIONS = {
@@ -10,42 +10,51 @@ REGIONS = {
     "🇰🇷 South Korea": "data/south_korea.csv"
 }
 
-def load_csv_to_md(file_path):
-    if os.path.exists(file_path):
-        try:
-            # 自动识别编码并读取
-            df = pd.read_csv(file_path, encoding='utf-8')
+def load_csv_to_md(region_name, file_path):
+    if not os.path.exists(file_path):
+        # 调试信息：如果文件不存在，直接返回提示
+        return f"> ⚠️ Data file for {region_name} not found at `{file_path}`. Please ensure the file exists."
+    
+    rows = []
+    try:
+        # 使用 utf-8-sig 处理 Excel 可能导出的 BOM 头
+        with open(file_path, mode='r', encoding='utf-8-sig') as f:
+            # 自动识别分隔符（防止有的是分号，有的是逗号）
+            dialect = csv.Sniffer().sniff(f.read(1024))
+            f.seek(0)
+            reader = csv.DictReader(f, dialect=dialect)
             
-            # 清理列名（去掉可能存在的 Tab 或空格）
-            df.columns = [c.strip() for c in df.columns]
+            # 清理表头空格
+            reader.fieldnames = [name.strip() for name in reader.fieldnames]
             
-            # 如果是空的
-            if df.empty:
-                return "No projects listed yet."
+            for row in reader:
+                # 兼容不同大小写的表头
+                name = row.get('Project Name', row.get('project name', '-')).strip()
+                desc = row.get('Description', row.get('description', '-')).strip()
+                tech = row.get('Key Tech', row.get('key tech', '-')).strip()
+                link = row.get('Link', row.get('link', '-')).strip()
+                
+                link_md = f"[Repo]({link})" if link.startswith('http') else "-"
+                rows.append(f"| {name} | {desc} | {tech} | {link_md} |")
+        
+        if not rows:
+            return f"> ℹ️ No projects currently listed for {region_name}."
             
-            # 处理 Link 列，转为 Markdown 点击链接
-            if 'Link' in df.columns:
-                df['Link'] = df['Link'].apply(lambda x: f"[Repo]({x})" if str(x).startswith('http') else "-")
-            
-            # 转换为 Markdown 表格 (不显示索引)
-            return df.to_markdown(index=False)
-        except Exception as e:
-            return f"*Error parsing {file_path}: {e}*"
-    return "*Coming soon...*"
+        header = "| Project Name | Description | Key Tech | Link |\n| :--- | :--- | :--- | :--- |"
+        return header + "\n" + "\n".join(rows)
+    except Exception as e:
+        return f"> ❌ Error parsing `{file_path}`: {str(e)}"
 
-# 生成内容
+# 拼接所有赛区
 showcase_sections = ""
-for region, path in REGIONS.items():
-    showcase_sections += f"### {region}\n\n{load_csv_to_md(path)}\n\n"
+for name, path in REGIONS.items():
+    showcase_sections += f"### {name}\n\n{load_csv_to_md(name, path)}\n\n"
 
-# 完整的 README 模版
-README_TEMPLATE = f"""# 📝 SpoonCommunity: Global AI Agent Ecosystem
+# 完整的 README 内容
+README_CONTENT = f"""# 📝 SpoonCommunity: Global AI Agent Ecosystem
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![SpoonOS](https://img.shields.io/badge/Powered%20by-SpoonOS-orange)](https://github.com/XSpoonAi)
-[![Global Reach](https://img.shields.io/badge/Global%20Regions-5-blue)](#-global-impact)
-
-Welcome to **SpoonCommunity**! This repository is a curated collection of innovative AI Agent projects developed during the **Spoon Global Hackathon Series**.
+[![Global Reach](https://img.shields.io/badge/Global%20Chapters-5-blue)](#-global-impact)
 
 ---
 
@@ -61,21 +70,17 @@ Welcome to **SpoonCommunity**! This repository is a curated collection of innova
 ---
 
 ## 📚 Community & Education
-| Resource | Description | Link |
-| :--- | :--- | :--- |
-| 🧑‍💻 **Co-learning** | Join our community-led sessions. | [Explore ↗️](https://xspoonai.github.io/spoon-colearning/) |
-| 🎬 **Workshop** | Watch video tutorials on YouTube. | [Watch ↗️](https://www.youtube.com/playlist?list=PLyHm819ed_KA36Ae2Ug1iUeiA8_N0obcB) |
-| 📖 **Cookbook** | Explore practical recipes for SpoonOS. | [Read ↗️](https://xspoonai.github.io/) |
+| Resource | Link |
+| :--- | :--- |
+| 🧑‍💻 **Co-learning** | [Explore ↗️](https://xspoonai.github.io/spoon-colearning/) |
+| 🎬 **Workshop** | [Watch ↗️](https://www.youtube.com/playlist?list=PLyHm819ed_KA36Ae2Ug1iUeiA8_N0obcB) |
+| 📖 **Cookbook** | [Read ↗️](https://xspoonai.github.io/) |
 
 ---
-
-## 🚀 How to Contribute
-1. **Fork** this repository.
-2. Update the corresponding CSV in the `data/` folder.
-3. **Submit a Pull Request**.
+*Last updated by Spoon-Bot.*
 """
 
 with open("README.md", "w", encoding="utf-8") as f:
-    f.write(README_TEMPLATE)
+    f.write(README_CONTENT)
 
-print("Success: README.md updated.")
+print("Process finished.")
