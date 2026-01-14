@@ -84,3 +84,20 @@ with open("README.md", "w", encoding="utf-8") as f:
     f.write(README_CONTENT)
 
 print("Process finished.")
+
+# ... (之前的代码保持不变) ...
+
+import datetime
+current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+# 完整的 README 内容（在底部加个时间戳）
+README_CONTENT = f"""# 📝 SpoonCommunity: Global AI Agent Ecosystem
+
+{showcase_sections}
+
+---
+*Last updated by Spoon-Bot at: {current_time}*
+"""
+
+with open("README.md", "w", encoding="utf-8") as f:
+    f.write(README_CONTENT)
