@@ -1,3 +1,4 @@
+import pandas as pd
 import os
 
 # 配置赛区和对应的文件
@@ -10,29 +11,71 @@ REGIONS = {
 }
 
 def load_csv_to_md(file_path):
-    if not os.path.exists(file_path):
-        return "| Project Name | Description | Key Tech | Link |\n| :--- | :--- | :--- | :--- |\n| - | Coming Soon | - | - |"
-    
-    lines = []
-    try:
-        with open(file_path, 'r', encoding='utf-8') as f:
-            content = f.readlines()
-            if len(content) <= 1: # 只有表头或为空
+    if os.path.exists(file_path):
+        try:
+            # 自动识别编码并读取
+            df = pd.read_csv(file_path, encoding='utf-8')
+            
+            # 清理列名（去掉可能存在的 Tab 或空格）
+            df.columns = [c.strip() for c in df.columns]
+            
+            # 如果是空的
+            if df.empty:
                 return "No projects listed yet."
             
-            # 生成 Markdown 表格头
-            lines.append("| Project Name | Description | Key Tech | Link |")
-            lines.append("| :--- | :--- | :--- | :--- |")
+            # 处理 Link 列，转为 Markdown 点击链接
+            if 'Link' in df.columns:
+                df['Link'] = df['Link'].apply(lambda x: f"[Repo]({x})" if str(x).startswith('http') else "-")
             
-            # 跳过第一行表头，处理数据行
-            for line in content[1:]:
-                parts = line.strip().split(',')
-                if len(parts) >= 4:
-                    name, desc, tech, link = parts[0], parts[1], parts[2], parts[3]
-                    link_md = f"[Repo]({link})" if link.startswith('http') else "-"
-                    lines.append(f"| {name} | {desc} | {tech} | {link_md} |")
-        return "\n".join(lines)
-    except Exception as e:
-        return f"Error loading CSV: {e}"
+            # 转换为 Markdown 表格 (不显示索引)
+            return df.to_markdown(index=False)
+        except Exception as e:
+            return f"*Error parsing {file_path}: {e}*"
+    return "*Coming soon...*"
 
-# 后面的 README 模版保持不变... (请接上文的模版代码)
+# 生成内容
+showcase_sections = ""
+for region, path in REGIONS.items():
+    showcase_sections += f"### {region}\n\n{load_csv_to_md(path)}\n\n"
+
+# 完整的 README 模版
+README_TEMPLATE = f"""# 📝 SpoonCommunity: Global AI Agent Ecosystem
+
+[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+[![SpoonOS](https://img.shields.io/badge/Powered%20by-SpoonOS-orange)](https://github.com/XSpoonAi)
+[![Global Reach](https://img.shields.io/badge/Global%20Regions-5-blue)](#-global-impact)
+
+Welcome to **SpoonCommunity**! This repository is a curated collection of innovative AI Agent projects developed during the **Spoon Global Hackathon Series**.
+
+---
+
+## 🌍 Global Impact
+`🇺🇸 USA` | `🇬🇧 UK` | `🇻🇳 Vietnam` | `🇷🇺 Russia` | `🇰🇷 South Korea`
+
+---
+
+## 🤖 Global Hackathon Project Showcase
+
+{showcase_sections}
+
+---
+
+## 📚 Community & Education
+| Resource | Description | Link |
+| :--- | :--- | :--- |
+| 🧑‍💻 **Co-learning** | Join our community-led sessions. | [Explore ↗️](https://xspoonai.github.io/spoon-colearning/) |
+| 🎬 **Workshop** | Watch video tutorials on YouTube. | [Watch ↗️](https://www.youtube.com/playlist?list=PLyHm819ed_KA36Ae2Ug1iUeiA8_N0obcB) |
+| 📖 **Cookbook** | Explore practical recipes for SpoonOS. | [Read ↗️](https://xspoonai.github.io/) |
+
+---
+
+## 🚀 How to Contribute
+1. **Fork** this repository.
+2. Update the corresponding CSV in the `data/` folder.
+3. **Submit a Pull Request**.
+"""
+
+with open("README.md", "w", encoding="utf-8") as f:
+    f.write(README_TEMPLATE)
+
+print("Success: README.md updated.")
