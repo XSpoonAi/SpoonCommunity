@@ -1,0 +1,35 @@
+name: Update README from CSV
+
+on:
+  push:
+    paths:
+      - 'data/*.csv'           # 只有当 data 目录下的 csv 文件变动时才触发
+      - 'generate_readme.py'   # 或者当你修改脚本时也触发
+  workflow_dispatch:           # 允许你在 GitHub 页面上点击按钮手动触发更新
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install pandas tabulate
+
+      - name: Run generation script
+        run: python generate_readme.py
+
+      - name: Commit and push if changed
+        run: |
+          git config --global user.name "Spoon-Bot"
+          git config --global user.email "bot@spoon.ai"
+          git add README.md
+          # 如果 README 没有变化，则不提交，避免报错
+          git diff --quiet && git diff --staged --quiet || (git commit -m "docs: auto-update projects from csv" && git push)
