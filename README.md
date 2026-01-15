@@ -24,7 +24,7 @@ Our ecosystem is powered by visionary developers from 5 global regions:
   - [🇬🇧 UK](#-uk)
   - [🇻🇳 Vietnam](#-vietnam)
   - [🇷🇺 Russia](#-russia)
-  - [🇰🇷 South Korea](#-south-korea)
+  - [🇰🇷 Korea](#-south-korea)
 - [🛠 Developer Toolkits](#-developer-toolkits)
 - [📚 Community & Education](#-community--education)
 - [🚀 How to Contribute](#-how-to-contribute)
