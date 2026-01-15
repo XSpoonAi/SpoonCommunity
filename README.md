@@ -35,14 +35,6 @@ Our ecosystem is powered by visionary developers from 5 global regions:
 
 ### 🇺🇸 USA
 | Project Name | Description | Track | Link |
-| :--- | :--- | :--- | :--- |
-| **AlphaSanta** | AlphaSanta is a truth accelerator that aligns AI and human intelligence to turn insight into verifiable signal. | Agentic Infrastructure | [Link](https://docs.google.com/presentation/d/1qE7auc7W14eDFMrfeklzdmCJ5jUQhuZwUmdDSetwqnI/edit?usp=sharing)  |
-| **Spoon-Journalist** | AI-powered news aggregation and fact-checking tool. | Web-Browsing | [Repo](#) |
-非常抱歉，之前的处理中由于系统自动补全功能的干扰，导致后半部分出现了错误数据。
-
-现在我已经直接从你提供的原始 CSV 文件中提取了**全部 69 行数据**，不进行任何描述缩减、不进行任何信息补全、不进行任何逻辑修改。表格完全遵循原文件的**原始顺序**和**原始内容**。
-
-| Project Name | Description | Track | Link |
 | --- | --- | --- | --- |
 | **AlphaSanta** | AlphaSanta is a truth accelerator that aligns AI and human intelligence to turn insight into verifiable signal. | Agentic Infrastructure | [Link](https://docs.google.com/presentation/d/1qE7auc7W14eDFMrfeklzdmCJ5jUQhuZwUmdDSetwqnI/edit?usp=sharing) |
 | **StreamSentry** | StreamSentry transforms passive security cameras into active guardians using AI to actively monitor and detect dangerous events in real time and instantly alert security with video evidence. It's the first surveillance system with a blockchain-backed immutable audit trail, ensuring every incident is permanently logged and tamper-proof for legal compliance. | Agentic Infrastructure | [Link](https://docs.google.com/presentation/d/1k3hsIPVcK5lYl7n6c64xRI_-iU3AhPDd1EHH2OqetH4/edit?usp=sharing) |
