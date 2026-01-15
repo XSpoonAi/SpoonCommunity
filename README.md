@@ -36,7 +36,7 @@ Our ecosystem is powered by visionary developers from 5 global regions:
 ### 🇺🇸 USA
 | Project Name | Description | Key Tech | Link |
 | :--- | :--- | :--- | :--- |
-| **Spoon-Fintech** | Autonomous financial analyst for real-time market auditing. | SpoonOS / LLM | [Repo](#) |
+| **AlphaSanta** | AlphaSanta is a truth accelerator that aligns AI and human intelligence to turn insight into verifiable signal. | Agentic Infrastructure | [Link](https://docs.google.com/presentation/d/1qE7auc7W14eDFMrfeklzdmCJ5jUQhuZwUmdDSetwqnI/edit?usp=sharing)  |
 | **Spoon-Journalist** | AI-powered news aggregation and fact-checking tool. | Web-Browsing | [Repo](#) |
 
 ### 🇬🇧 UK
