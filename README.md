@@ -2,7 +2,7 @@
 
 [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
 [![SpoonOS](https://img.shields.io/badge/Powered%20by-SpoonOS-orange)](https://github.com/XSpoonAi)
-[![Global Reach](https://img.shields.io/badge/Global%20Chapters-5-blue)](#-global-impact)
+[![Global Reach](https://img.shields.io/badge/Global%20Chapters-6-blue)](#-global-impact)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Welcome to **SpoonCommunity**! This repository is a curated collection of innovative AI Agent projects, developer tools, and resources developed during the **Spoon Global Hackathon Series** and by our worldwide community.
